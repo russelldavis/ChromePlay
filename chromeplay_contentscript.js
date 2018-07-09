@@ -60,7 +60,10 @@ chrome.runtime.onMessage.addListener(
 
 function tryToEnableChromePlay(evt) {
 
-	var jsInitChecktimer = setInterval (checkForJS_Finish, 111);
+	// This was originally setInterval, but changing it to setTimeout to avoid a barrage of errors
+	// caused by this bug: https://bugs.chromium.org/p/chromium/issues/detail?id=861629
+	// and because it only makes a difference on vimeo pages.
+	var jsInitChecktimer = setTimeout(checkForJS_Finish, 111);
 
 	function checkForJS_Finish () {
 	    if (!/vimeo.com/.test(document.URL) || document.getElementsByClassName('target').length > 0) {
